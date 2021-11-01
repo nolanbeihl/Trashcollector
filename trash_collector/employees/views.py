@@ -5,6 +5,12 @@ from django.urls import reverse
 from .models import Employee
 from datetime import date
 from django.core.exceptions import ObjectDoesNotExist
+
+# We left off here.
+import os
+import sys
+
+
 # Create your views here.
 
 # TODO: Create a function for each path created in employees/urls.py. Each will need a template as well.
@@ -34,9 +40,21 @@ def create(request):
     if request.method == "POST":
         name_from_form = request.POST.get('name')
         zip_from_form = request.POST.get('zip_code')
-        work_days_from_form = request.POST.get('work_days')
-        new_employee = Employee(name=name_from_form, user=logged_in_user,  zip_code=zip_from_form, work_days=work_days_from_form)
+        work_zip_code_from_form = request.POST.get('work_zip_code')
+        address_from_form = request.POST.get('address')
+        new_employee = Employee(name=name_from_form, user=logged_in_user,  zip_code=zip_from_form, work_zip_code=work_zip_code_from_form, address=address_from_form)
         new_employee.save()
         return HttpResponseRedirect(reverse('employees:index'))
     else:
         return render(request, 'employees/create.html')
+
+
+
+@login_required
+def day(request):
+    todays_customers = Customers.objects.filter(weekly_pickup = date.today())
+    context = {
+        'todays_customers': todays_customers
+    }
+    return render(request, 'employees/index.html', context)
+

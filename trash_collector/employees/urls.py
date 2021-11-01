@@ -8,4 +8,5 @@ app_name = "employees"
 urlpatterns = [
     path('', views.index, name="index"),
     path('new/', views.create, name="create"),
+    path('day/', views.day, name="day"),
 ]
