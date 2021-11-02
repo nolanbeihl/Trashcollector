@@ -2,8 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-
-from customers.models import Customer
+from django.apps import apps
 from .models import Employee
 from datetime import date
 from django.core.exceptions import ObjectDoesNotExist
@@ -25,14 +24,21 @@ def index(request):
     logged_in_user = request.user
     try:
         # This line will return the customer record of the logged-in user if one exists
+        Customer = apps.get_model('customers.Customer')
         logged_in_employee = Employee.objects.get(user=logged_in_user)
-
         today = date.today()
+        customers_in_zip = Customer.objects.filter(zip_code = logged_in_employee.work_zip_code)
+        todays_customers = customers_in_zip.filter(weekly_pickup = today)
+        
+
         
         context = {
             'logged_in_employee': logged_in_employee,
-            'today': today
+            'today': today,
+            'todays_customers' : todays_customers,
+            'customers_in_zip' : customers_in_zip
         }
+        
         return render(request, 'employees/index.html', context)
     except ObjectDoesNotExist:
         return HttpResponseRedirect(reverse('employees:create'))
@@ -52,13 +58,5 @@ def create(request):
         return render(request, 'employees/create.html')
 
 
-@login_required
-def day(request):
-    todays_customers = Customer.objects.filter(weekly_pickup = date.today())
-    context = {
-        'todays_customers': todays_customers
-    }
-    employees_customers = todays_customers.filter(work_zip_code = Customer.zip_code)
-    request=employees_customers
-    return render(request, 'employees/index.html', context)
+
 
