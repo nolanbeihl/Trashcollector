@@ -7,10 +7,10 @@
   {% if user.is_authenticated %}
     Hello Employee {{ user.username }}!<br />
     Here is a list of your customers.<br />
-    <ul>
-      <li>Monday</li>
-      <li>Tuesday</li>
-      <li></li>
+    <ul >
+      {% for item in day %}
+      <li>{{ item }}</li>
+      {% endfor %}
     </ul>
     
   {% else %}
