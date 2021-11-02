@@ -21,14 +21,7 @@ def index(request):
     try:
         # This line will return the customer record of the logged-in user if one exists
         logged_in_employee = Employee.objects.get(user=logged_in_user)
-        work_zip_code = logged_in_employee.work_zip_code
-        todays_customers = Customer.objects.filter(weekly_pickup = date.today())
-        context = {
-            'todays_customers': todays_customers
-            }
-        employees_customers = todays_customers.filter(work_zip_code = Customer.zip_code)
         today = date.today()
-        
         context = {
             'logged_in_employee': logged_in_employee,
             'today': today
