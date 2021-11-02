@@ -15,14 +15,14 @@ from django.core.exceptions import ObjectDoesNotExist
 
 def get_weekday():
     todaysdate = date.weekday()
-    listvariable = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    listvariable[todaysdate] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     for x in range (0,7):
         if x == todaysdate:
             return listvariable[x]
 print(get_weekday())
 
 
-
+['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 
 
