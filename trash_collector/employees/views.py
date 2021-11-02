@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.apps import apps
+
 from .models import Employee
 from datetime import date
 from django.core.exceptions import ObjectDoesNotExist
@@ -14,18 +15,11 @@ from django.core.exceptions import ObjectDoesNotExist
 
 
 def get_weekday():
-    todaysdate = date.weekday()
-    listvariable = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    todaysdate = date.today().weekday()
+    listvariable = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday','Sunday']
     for x in range (0,7):
         if x == todaysdate:
             return listvariable[x]
-print(get_weekday())
-
-
-
-
-
-
 
 @login_required
 def index(request):
@@ -36,19 +30,16 @@ def index(request):
         Customer = apps.get_model('customers.Customer')
         logged_in_employee = Employee.objects.get(user=logged_in_user)
         today = date.today()
+        todays_day = get_weekday()
         customers_in_zip = Customer.objects.filter(zip_code = logged_in_employee.work_zip_code)
-        non_suspended = customers_in_zip.exclude(suspend_start = False)
-        trash_picked_up = non_suspended.filter(date_of_last_pickup = date.today())
-
-
-        # todays_customers = trash_picked_up.filter(weekly_pickup = today)
-        
-
-        
+        non_suspended = customers_in_zip.exclude(suspend_start__lt = today, suspend_end__gt = today)
+        trash_picked_up = non_suspended.exclude(date_of_last_pickup = today)
+        todays_customers = trash_picked_up.filter(weekly_pickup = todays_day) | trash_picked_up.filter(one_time_pickup = today)
+          
         context = {
             'logged_in_employee': logged_in_employee,
             'today': today,
-            # 'todays_customers' : todays_customers,
+            'todays_customers' : todays_customers,
             'customers_in_zip' : customers_in_zip,
             'non_suspended': non_suspended,
             'trash_picked_up': trash_picked_up
