@@ -8,11 +8,6 @@ from datetime import date
 from django.core.exceptions import ObjectDoesNotExist
 
 
-# We left off here.
-import os
-import sys
-
-
 # Create your views here.
 
 # TODO: Create a function for each path created in employees/urls.py. Each will need a template as well.
@@ -56,7 +51,6 @@ def create(request):
         return HttpResponseRedirect(reverse('employees:index'))
     else:
         return render(request, 'employees/create.html')
-
 
 
 
