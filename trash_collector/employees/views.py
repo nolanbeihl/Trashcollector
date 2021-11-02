@@ -13,6 +13,20 @@ from django.core.exceptions import ObjectDoesNotExist
 # TODO: Create a function for each path created in employees/urls.py. Each will need a template as well.
 
 
+def get_weekday():
+    todaysdate = date.weekday()
+    listvariable = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    for x in range (0,7):
+        if x == todaysdate:
+            return listvariable[x]
+print(get_weekday())
+
+
+
+
+
+
+
 @login_required
 def index(request):
     # The following line will get the logged-in user (if there is one) within any view function
@@ -23,17 +37,22 @@ def index(request):
         logged_in_employee = Employee.objects.get(user=logged_in_user)
         today = date.today()
         customers_in_zip = Customer.objects.filter(zip_code = logged_in_employee.work_zip_code)
-        todays_customers = customers_in_zip.filter(weekly_pickup = today)
+        non_suspended = customers_in_zip.exclude(suspend_start = False)
+        trash_picked_up = non_suspended.filter(date_of_last_pickup = date.today())
+
+
+        # todays_customers = trash_picked_up.filter(weekly_pickup = today)
         
 
         
         context = {
             'logged_in_employee': logged_in_employee,
             'today': today,
-            'todays_customers' : todays_customers,
-            'customers_in_zip' : customers_in_zip
+            # 'todays_customers' : todays_customers,
+            'customers_in_zip' : customers_in_zip,
+            'non_suspended': non_suspended,
+            'trash_picked_up': trash_picked_up
         }
-        
         return render(request, 'employees/index.html', context)
     except ObjectDoesNotExist:
         return HttpResponseRedirect(reverse('employees:create'))
