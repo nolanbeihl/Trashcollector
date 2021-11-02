@@ -9,11 +9,6 @@ from datetime import date
 from django.core.exceptions import ObjectDoesNotExist
 
 
-# We left off here.
-import os
-import sys
-
-
 # Create your views here.
 
 # TODO: Create a function for each path created in employees/urls.py. Each will need a template as well.
@@ -26,7 +21,12 @@ def index(request):
     try:
         # This line will return the customer record of the logged-in user if one exists
         logged_in_employee = Employee.objects.get(user=logged_in_user)
-
+        work_zip_code = logged_in_employee.work_zip_code
+        todays_customers = Customer.objects.filter(weekly_pickup = date.today())
+        context = {
+            'todays_customers': todays_customers
+            }
+        employees_customers = todays_customers.filter(work_zip_code = Customer.zip_code)
         today = date.today()
         
         context = {
@@ -53,7 +53,7 @@ def create(request):
 
 
 @login_required
-def day(request):
+def todays_customers(request):
     todays_customers = Customer.objects.filter(weekly_pickup = date.today())
     context = {
         'todays_customers': todays_customers

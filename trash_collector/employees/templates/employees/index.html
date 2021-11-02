@@ -8,8 +8,8 @@
     Hello Employee {{ user.username }}!<br />
     Here is a list of your customers.<br />
     <ul >
-      {% for item in day %}
-      <li>{{ item }}</li>
+      {% for todays_customers in customers %}
+      <li>{{ todays_customers }}</li>
       {% endfor %}
     </ul>
     
