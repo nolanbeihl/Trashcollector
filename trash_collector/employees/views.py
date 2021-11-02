@@ -2,9 +2,12 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+
+from customers.models import Customer
 from .models import Employee
 from datetime import date
 from django.core.exceptions import ObjectDoesNotExist
+
 
 # We left off here.
 import os
@@ -49,12 +52,13 @@ def create(request):
         return render(request, 'employees/create.html')
 
 
-
 @login_required
 def day(request):
-    todays_customers = Customers.objects.filter(weekly_pickup = date.today())
+    todays_customers = Customer.objects.filter(weekly_pickup = date.today())
     context = {
         'todays_customers': todays_customers
     }
+    employees_customers = todays_customers.filter(work_zip_code = Customer.zip_code)
+    request=employees_customers
     return render(request, 'employees/index.html', context)
 
