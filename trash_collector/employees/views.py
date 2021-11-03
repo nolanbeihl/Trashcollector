@@ -59,7 +59,7 @@ def create(request):
         new_employee.save()
         return HttpResponseRedirect(reverse('employees:index'))
     else:
-        return render(request, 'employees/index.html')
+        return render(request, 'employees/create.html')
 
 @login_required
 def edit_profile(request):
@@ -104,3 +104,11 @@ def confirm_pickup(request,item_id):
         return render(request, 'employees/confirm_pickup.html', context)
     except:
         return HttpResponseRedirect(reverse('employees:create'))
+
+def dropdown(request, week_day_chosen):
+    # for every customer with the day requested has the employee work zip code, make a new dropdown option of that customer. 
+    logged_in_user = request.user
+    Customer = apps.get_model('customers.Customer')
+    current_customer = Customer.objects.get(weekly_pickup = week_day_chosen)
+
+# return new html
