@@ -9,7 +9,7 @@
     Here is a list of your customers.<br />
     <ul >
       {% for item in todays_customers %}
-      <li>{{ item.name }} - {{item.address}} <a href="{%url 'employees:confirm_pickup'%}">Confirm Pickup</a> </li>
+      <li>{{ item.name }} - {{item.address}} <a href="{%url 'employees:confirm_pickup' item %}">Confirm Pickup</a> </li>
       {% endfor %}
     </ul>
     

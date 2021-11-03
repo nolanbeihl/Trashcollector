@@ -26,7 +26,6 @@ def index(request):
     # The following line will get the logged-in user (if there is one) within any view function
     logged_in_user = request.user
     try:
-        # This line will return the customer record of the logged-in user if one exists
         Customer = apps.get_model('customers.Customer')
         logged_in_employee = Employee.objects.get(user=logged_in_user)
         today = date.today()
@@ -83,18 +82,22 @@ def edit_profile(request):
         }
         return render(request, 'employees/edit_profile.html', context)
 
-
-def confirm_pickup(request):
-    Customer = apps.get_model('customers.Customer')
-    customer_selected = request.user
-    if request.method == "GET":
-        customer_selected.balance += 20
-        customer_selected.date_of_last_pickup = day.today()
-        customer_selected.save()
-        return HttpResponseRedirect(reverse('employees:index'))
-    else:
+@login_required
+def confirm_pickup(request,item):
+    logged_in_user = request.user
+    try:
+        logged_in_employee = Employee.objects.get(user=logged_in_user)
+        today = date.today()
+        customers_balance = item.POST('balance' + 20)
+        customer_last_pickup = item.POST('date_of_last_pickup' == today)
+        item.save()
+        
         context = {
-            'customer_selected': customer_selected
+            'logged_in_employee': logged_in_employee,
+            'today': today,
+            'customer_balance' : customers_balance,
+            'customer_last_pickup' : customer_last_pickup,
         }
         return render(request, 'employees/index.html', context)
-
+    except ObjectDoesNotExist:
+        return HttpResponseRedirect(reverse('employees:create'))
