@@ -59,7 +59,7 @@ def create(request):
         new_employee.save()
         return HttpResponseRedirect(reverse('employees:index'))
     else:
-        return render(request, 'employees/create.html')
+        return render(request, 'employees/index.html')
 
 @login_required
 def edit_profile(request):
@@ -91,8 +91,8 @@ def confirm_pickup(request,item_id):
         request.method == "GET"
         logged_in_employee = Employee.objects.get(user=logged_in_user)
         today = date.today()
-        current_customer.balance = current_customer.balance.POST.get('balance' + 20)
-        current_customer.date_of_last_pickup = current_customer.POST.get(today)
+        current_customer.balance += 20
+        current_customer.date_of_last_pickup = today
         current_customer.save()
         
         context = {
