@@ -83,3 +83,18 @@ def edit_profile(request):
         }
         return render(request, 'employees/edit_profile.html', context)
 
+
+def confirm_pickup(request):
+    Customer = apps.get_model('customers.Customer')
+    customer_selected = request.user
+    if request.method == "GET":
+        customer_selected.balance += 20
+        customer_selected.date_of_last_pickup = day.today()
+        customer_selected.save()
+        return HttpResponseRedirect(reverse('employees:index'))
+    else:
+        context = {
+            'customer_selected': customer_selected
+        }
+        return render(request, 'employees/index.html', context)
+
