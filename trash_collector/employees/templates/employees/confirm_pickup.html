@@ -1,0 +1,17 @@
+{% extends 'employees\employee_base.html' %}
+
+{% block title %}{% block header %} Confirm Pick Up {% endblock %}{% endblock %}
+
+
+{% block content %}
+  {% if user.is_authenticated %}
+    Hello Employee {{ user.username }}!<br />
+    This has been charged $20 and pick up confirmed.<br />
+    <a href="{% exployee/index.html%}">Click here to return to your list</a>
+    
+  {% else %}
+    <p>You are at the employee index, but you are not logged in.</p>
+    <a href="{% url 'login' %}">Log In</a>
+    <a href="{% url 'accounts:register' %}">Sign Up</a>
+  {% endif %}
+{% endblock %}

@@ -9,6 +9,7 @@
 <br />
 <form action="{% url 'employees:edit_profile' %}" method="post">
     {% csrf_token %}
+    {{form.as_p}}
     Name: <input type="text" name="name" id="name" value="{{logged_in_employee.name}}">
     <br />
     <br />

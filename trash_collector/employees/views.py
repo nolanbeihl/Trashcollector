@@ -83,21 +83,24 @@ def edit_profile(request):
         return render(request, 'employees/edit_profile.html', context)
 
 @login_required
-def confirm_pickup(request,item):
+def confirm_pickup(request,item_id):
     logged_in_user = request.user
-    try:
+    Customer = apps.get_model('customers.Customer')
+    current_customer = Customer.objects.get(pk=item_id)
+    try: 
+        request.method == "GET"
         logged_in_employee = Employee.objects.get(user=logged_in_user)
         today = date.today()
-        customers_balance = item.POST('balance' + 20)
-        customer_last_pickup = item.POST('date_of_last_pickup' == today)
-        item.save()
+        current_customer.balance = current_customer.balance.POST.get('balance' + 20)
+        current_customer.date_of_last_pickup = current_customer.POST.get(today)
+        current_customer.save()
         
         context = {
             'logged_in_employee': logged_in_employee,
             'today': today,
-            'customer_balance' : customers_balance,
-            'customer_last_pickup' : customer_last_pickup,
+            'customer_balance' : current_customer.balance,
+            'customer_last_pickup' : current_customer.date_of_last_pickup
         }
-        return render(request, 'employees/index.html', context)
-    except ObjectDoesNotExist:
+        return render(request, 'employees/confirm_pickup.html', context)
+    except:
         return HttpResponseRedirect(reverse('employees:create'))
