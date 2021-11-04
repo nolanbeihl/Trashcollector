@@ -19,16 +19,20 @@
   </nav>
   {% endif %}
     <main>
-      <div class="container">
-        <div class="row">
-          <div class="col-2"></div>
-          <div class="col-8" style="font-family:Lucida Sans;font-weight:bold;" align="center">
-            <br />
-            <br />
-            <h1>{% block header %}{% endblock %}</h1>
-            {% block content %}{% endblock %}
-          </div>
-          <div class="col-2"></div>
+      <div class="bg"></div>
+      <div class="bg bg2"></div>
+      <div class="bg bg3"></div>
+      <div class="content">
+        <div class="container">
+          <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8" style="font-family:Lucida Sans;font-weight:bold;" align="center">
+              <br />
+              <br />
+              <h1>{% block header %}{% endblock %}</h1>
+              {% block content %}{% endblock %}
+            </div>
+            <div class="col-2"></div>
         </div>
       </div>
     </main>

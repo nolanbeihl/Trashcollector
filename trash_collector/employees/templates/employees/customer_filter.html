@@ -6,7 +6,7 @@
 {% block content %}
   {% if user.is_authenticated %}
     Hello Employee {{ user.username }}!<br />
-    Here is a list of the customers with a pickup on {{week_day_chosen}}.<br />
+    Here is a list of the customers with a pickup on that day of the week<br />
     <ul style="list-style: none;">
         {% for item in employee_customer %}
         <li>{{ item.name }} - {{item.address}} </li>
