@@ -11,11 +11,11 @@
 <br />
 {% if user.is_authenticated %}
   Hello {{ user.username }}. You don't have a group assigned. Please contact administrator or attempt to register again.
-  <p><a href="{% url 'logout' %}">Log Out</a></p>
+  <p><a class="btn btn-success btn-sm"  href="{% url 'logout' %}">Log Out</a></p>
 {% else %}
   <p>You are not logged in. Please log in or create an account.</p>
-  <a href="{% url 'login' %}">Log In</a>
-  <a href="{% url 'accounts:register' %}">Sign Up</a>
+  <a class="btn btn-success btn-sm" href="{% url 'login' %}">Log In</a>
+  <a class="btn btn-success btn-sm"  href="{% url 'accounts:register' %}">Sign Up</a>
 {% endif %}
 {% endblock %}
 

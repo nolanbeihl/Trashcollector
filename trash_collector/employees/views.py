@@ -110,18 +110,18 @@ def dropdown(request, week_day_chosen):
     logged_in_user = request.user
     logged_in_employee = Employee.objects.get(user=logged_in_user)
     Customer = apps.get_model('customers.Customer')
-    # try:
-    customer_by_day = Customer.objects.filter(weekly_pickup = week_day_chosen)
-    employee_customer = customer_by_day.filter(zip_code = logged_in_employee.work_zip_code)
+    try:
+        customer_by_day = Customer.objects.filter(weekly_pickup = week_day_chosen)
+        employee_customer = customer_by_day.filter(zip_code = logged_in_employee.work_zip_code)
 
-    context = {
-        'logged_in_user' : logged_in_user,
-        'logged_in_employee' : logged_in_employee,
-        'customer_by_day' : customer_by_day,
-        'employee_customer' : employee_customer
-    }
-    return render(request, 'employees/customer_filter.html', context)
-    # except:
-    #     return HttpResponseRedirect(reverse('employees:index'))
+        context = {
+            'logged_in_user' : logged_in_user,
+            'logged_in_employee' : logged_in_employee,
+            'customer_by_day' : customer_by_day,
+            'employee_customer' : employee_customer
+        }
+        return render(request, 'employees/customer_filter.html', context)
+    except:
+        return HttpResponseRedirect(reverse('employees:index'))
 
 

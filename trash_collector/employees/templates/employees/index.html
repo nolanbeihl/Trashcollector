@@ -15,7 +15,9 @@
       {% endfor %}
     </ul>
 
-  
+    <div class="dropdown">
+      <button class="dropbtn">Filter by Day</button>
+      <div class="dropdown-content">
         <a href="{% url 'employees:dropdown' 'Monday' %}">Monday</a>
         <a href="{% url 'employees:dropdown' 'Tuesday' %}">Tuesday</a>
         <a href="{% url 'employees:dropdown' 'Wednesday' %}">Wednesday</a>
@@ -23,6 +25,9 @@
         <a href="{% url 'employees:dropdown' 'Friday' %}">Friday</a>
         <a href="{% url 'employees:dropdown' 'Saturday' %}">Saturday</a>
         <a href="{% url 'employees:dropdown' 'Sunday' %}">Sunday</a>
+      </div>
+    </div>
+        
     
   {% else %}
     <p>You are at the employee index, but you are not logged in.</p>
