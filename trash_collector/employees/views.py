@@ -105,10 +105,23 @@ def confirm_pickup(request,item_id):
     except:
         return HttpResponseRedirect(reverse('employees:index'))
 
+@login_required
 def dropdown(request, week_day_chosen):
-    # for every customer with the day requested has the employee work zip code, make a new dropdown option of that customer. 
     logged_in_user = request.user
+    logged_in_employee = Employee.objects.get(user=logged_in_user)
     Customer = apps.get_model('customers.Customer')
-    current_customer = Customer.objects.get(weekly_pickup = week_day_chosen)
+    # try:
+    customer_by_day = Customer.objects.filter(weekly_pickup = week_day_chosen)
+    employee_customer = customer_by_day.filter(zip_code = logged_in_employee.work_zip_code)
 
-# return new html
+    context = {
+        'logged_in_user' : logged_in_user,
+        'logged_in_employee' : logged_in_employee,
+        'customer_by_day' : customer_by_day,
+        'employee_customer' : employee_customer
+    }
+    return render(request, 'employees/customer_filter.html', context)
+    # except:
+    #     return HttpResponseRedirect(reverse('employees:index'))
+
+
