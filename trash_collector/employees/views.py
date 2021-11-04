@@ -88,7 +88,7 @@ def confirm_pickup(request,item_id):
     Customer = apps.get_model('customers.Customer')
     current_customer = Customer.objects.get(pk=item_id)
     try: 
-        request.method == "GET"
+        request.method == "POST"
         logged_in_employee = Employee.objects.get(user=logged_in_user)
         today = date.today()
         current_customer.balance += 20
@@ -103,7 +103,7 @@ def confirm_pickup(request,item_id):
         }
         return render(request, 'employees/confirm_pickup.html', context)
     except:
-        return HttpResponseRedirect(reverse('employees:create'))
+        return HttpResponseRedirect(reverse('employees:index'))
 
 def dropdown(request, week_day_chosen):
     # for every customer with the day requested has the employee work zip code, make a new dropdown option of that customer. 

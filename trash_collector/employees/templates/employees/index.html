@@ -1,15 +1,17 @@
+
 {% extends 'employees\employee_base.html' %}
+
 
 {% block title %}{% block header %} Employee Home {% endblock %}{% endblock %}
 
 
 {% block content %}
   {% if user.is_authenticated %}
-    Hello Employee {{ user.username }}!<br />
+  <h1 class="red">Hello Employee {{ user.username }}!</h1><br />
     Here is a list of your customers.<br />
-    <ul >
+    <ul style="list-style: none;">
       {% for item in todays_customers %}
-      <li>{{ item.name }} - {{item.address}} <a href="{%url 'employees:confirm_pickup' item.id %}" method = "post">Confirm Pickup</a> </li>
+      <li>{{ item.name }} - {{item.address}} <a class="btn btn-success btn-sm" href="{%url 'employees:confirm_pickup' item.id %}" method = "post" role="button">Confirm Pickup</a> </li>
       {% endfor %}
     </ul>
 
@@ -31,3 +33,9 @@
     <a href="{% url 'accounts:register' %}">Sign Up</a>
   {% endif %}
 {% endblock %}
+
+
+<button type="button" class="btn btn-primary btn-sm">Small button</button>
+<button type="button" class="btn btn-primary">Primary</button>
+
+<a class="btn btn-primary" href="#" role="button">Link</a>
