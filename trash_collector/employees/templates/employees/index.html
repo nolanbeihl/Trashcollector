@@ -14,7 +14,6 @@
       <li>{{ item.name }} - {{item.address}} <a class="btn btn-success btn-sm" href="{%url 'employees:confirm_pickup' item.id %}" method = "post" role="button">Confirm Pickup</a> </li>
       {% endfor %}
     </br>
-    </br>
     <div class="dropdown">
       <button class="dropbtn">Filter by Day</button>
       <div class="dropdown-content">

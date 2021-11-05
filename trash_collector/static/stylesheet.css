@@ -84,6 +84,8 @@ body {
   transform:translate(-50%, -50%);
   animation-duration: 3s;
   animation-name: slidein;
+  padding-top: 0px;
+  margin-top: 0px;
 }
 @keyframes slidein {
   from {
