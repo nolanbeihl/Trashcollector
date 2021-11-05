@@ -70,6 +70,7 @@ body {
   animation-duration:6s;
 }
 
+
 .content {
   background-color:rgb(70, 234, 240,.3);
   border-radius:25px;
@@ -81,6 +82,19 @@ body {
   text-align:top;
   top:40%;
   transform:translate(-50%, -50%);
+  animation-duration: 3s;
+  animation-name: slidein;
+}
+@keyframes slidein {
+  from {
+    margin-left: 90%;
+    width: 90%;
+  }
+
+  to {
+    margin-left: 0%;
+    width: 90%;
+  }
 }
 
 h1 {
